@@ -251,9 +251,9 @@ class ProvDataset(Dataset):
                 # graph_data = self._add_reverse_edges_and_sexpand_edge_attr(graph_data)
                 num_entries = txn.stat()['entries']
                 txn.put(str(num_entries).encode(), pickle.dumps(graph_data))
-            txn.commit()  # 提交事务
+            txn.commit() 
         except Exception as e:
-            txn.abort()  # 如果出错，回滚事务
+            txn.abort()
             raise e
         data_save_lmdb.close()
     
@@ -263,25 +263,16 @@ class ProvDataset(Dataset):
         edge_type_dim = self.edge_type_dim
         num_edges, old_dim = edge_attr.shape
         new_dim = old_dim + edge_type_dim
-
-        # 构建正向边新特征（扩展维度）
         forward_attr = torch.nn.functional.pad(edge_attr, (0, edge_type_dim), value=0)
-
-        # 构建反向边索引
         reverse_edge_index = edge_index[[1, 0], :]
-
-        # 构建反向边特征
         reverse_attr = torch.zeros_like(forward_attr)
         reverse_attr[:, :edge_type_dim] = edge_attr[:, -edge_type_dim:]  # 前部分
         if old_dim > 2 * edge_type_dim:
             reverse_attr[:, edge_type_dim:-edge_type_dim] = edge_attr[:, edge_type_dim:-edge_type_dim]  # 中间部分
         reverse_attr[:, -edge_type_dim:] = edge_attr[:, :edge_type_dim]  # 后部分
 
-        # 合并边索引和特征
         graph_data.edge_index = torch.cat([edge_index, reverse_edge_index], dim=1)
         graph_data.edge_attr = torch.cat([forward_attr, reverse_attr], dim=0)
-
-        # 扩展标签
         graph_data.edge_labels = torch.cat([graph_data.edge_labels, graph_data.edge_labels], dim=0)
 
         return graph_data
