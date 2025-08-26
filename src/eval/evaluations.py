@@ -34,7 +34,6 @@ def get_anomaly_rank(x_node_true, x_node_score, log_file):
     ranks = np.where(np.isin(sorted_indices, np.where(x_node_true == 1)[0]))[0] + 1
     for rank, idx in zip(ranks, sorted_indices[ranks - 1]):
         log_file.write(f"Rank: {rank}, Node Index: {idx}, Anomaly Score: {x_node_score[idx]}\n")
-        # print(f"Rank: {rank}, Node Index: {idx}, Anomaly Score: {x_node_score[idx]}")
     log_file.write('\n')
 
 class EvalModel():
@@ -72,7 +71,7 @@ class EvalModel():
         self.fnid2file = {}
         self.fnid2score = {}
         self.attack_graph_node_nid = []
-        self.attack_graph_node_nid_set = set()  # 辅助集合，用于快速查找
+        self.attack_graph_node_nid_set = set()
         self.attack_graph = RedProvGraph(central_node_type=config.CENTRAL_NODE_TYPE)
         
     
@@ -160,8 +159,8 @@ class EvalModel():
                 graph_day = g.graph_day
                 for graph_idx in range(len(central_nodes)):
                     
-                    _central_node_idx = torch.tensor(central_nodes[graph_idx].item())  # 当前图的中心节点
-                    _ano_score = ano_score[graph_idx].item()  # 当前图的异常分数
+                    _central_node_idx = torch.tensor(central_nodes[graph_idx].item())
+                    _ano_score = ano_score[graph_idx].item()
                     _graph_emb = batch_graph_emb[graph_idx, :]
                     
                     central_node_id = str(torch.tensor(g.node_id[_central_node_idx].item()))
@@ -191,8 +190,6 @@ class EvalModel():
         all_ad_score = torch.cat(all_ad_score)
         ad_true = torch.cat(all_ad_true)
         ad_score = all_ad_score
-        # rank_log_file = open(os.path.join(self.save_dir, "rank.txt"), 'a', buffering=1)
-        # get_anomaly_rank(ad_true.numpy(), ad_score.numpy(), rank_log_file)
     
     def get_sorted_anomaly_file_list(self):
         file_score_list = []
@@ -248,7 +245,6 @@ class EvalModel():
                 self.provgraph.nodes[_vid]['score'] = float(_node_anomaly_score)
         attack_nxsubgraph = self.provgraph.subgraph(subgraph_vid_list) #.copy()
 
-        #################################待定，是否要保证图的连通性？#################################
         attack_nxsubgraph_cvid = self.provgraph_nid2vid[subgraph['cnid'].split(';')[0]]
         if attack_nxsubgraph.nodes[attack_nxsubgraph_cvid]['score'] >= self.args.node_thed:
             for _node_vid, attrs in attack_nxsubgraph.nodes(data=True):
@@ -264,7 +260,6 @@ class EvalModel():
                         for _vid in path_nodes:
                             if attack_nxsubgraph.nodes[_vid]['score'] < self.args.node_thed:
                                 self.provgraph.nodes[_vid]['score'] = attrs['score']
-        #################################待定，是否要保证图的连通性？#################################
 
         perserve_node_vids = set()
         perserve_node_vid2vidlist = {}
@@ -358,7 +353,6 @@ class EvalModel():
             if _scan_fnid not in initial_anomaly_subject_fnid_dict:
                 initial_anomaly_subject_fnid_dict[_scan_fnid] = self.fnid2score[_scan_fnid]
 
-            # print(attack_nxsubgraph_cnid, attack_nxsubgraph.nodes[attack_nxsubgraph_cvid]['content'], depth)
 
             forward_depth_dict = self.ts_monotonic_bfs(graph=attack_nxsubgraph, source=attack_nxsubgraph_cvid, max_depth=self.args.subgraph_radius, increasing=True)
             reversed_attack_nxsubgrap = attack_nxsubgraph.reverse()
@@ -367,25 +361,16 @@ class EvalModel():
             next_forward_subject_fnid = {}
             next_backward_subject_fnid = {}
             for _forward_node, _ in forward_depth_dict.items():
-                if attack_nxsubgraph.nodes[_forward_node]['type'] in config.CENTRAL_NODE_TYPE: # and attack_nxsubgraph.nodes[_forward_node]['score'] >= self.args.node_thed:
+                if attack_nxsubgraph.nodes[_forward_node]['type'] in config.CENTRAL_NODE_TYPE:
                     for _nide_fnid in attack_nxsubgraph.nodes[_forward_node]['nid'].split(';'):
                         if _nide_fnid in self.fnid2score and _nide_fnid not in fnid_is_forward_scan_file:
                             next_forward_subject_fnid[_nide_fnid] = attack_nxsubgraph.nodes[_forward_node]['score']
             for _backward_node, _ in backward_depth_dict.items():
-                if attack_nxsubgraph.nodes[_backward_node]['type'] in config.CENTRAL_NODE_TYPE: # and attack_nxsubgraph.nodes[_backward_node]['score'] >= self.args.node_thed:
+                if attack_nxsubgraph.nodes[_backward_node]['type'] in config.CENTRAL_NODE_TYPE:
                     for _nide_fnid in attack_nxsubgraph.nodes[_backward_node]['nid'].split(';'):
                         if _nide_fnid in self.fnid2score and _nide_fnid not in fnid_is_backward_scan_file:
                             next_backward_subject_fnid[_nide_fnid] = attack_nxsubgraph.nodes[_backward_node]['score']
 
-            # print("")
-            # print("forward...")
-            # for _subject_fnid in next_forward_subject_fnid:
-            #     print(self.provgraph.nodes[self.provgraph_nid2vid[_subject_fnid]]['content'])
-            # print("")
-            # print("backward...")
-            # for _subject_fnid in next_backward_subject_fnid:
-            #     print(self.provgraph.nodes[self.provgraph_nid2vid[_subject_fnid]]['content'])
-            # print("")
 
             if len(next_forward_subject_fnid) <= 5:
                 for _subject_fnid in next_forward_subject_fnid:
@@ -551,20 +536,20 @@ class EvalModel():
 
         plt.figure()
         plt.plot(x_count, y_percent, marker='o')
-        plt.xscale('log')  # 横坐标指数级增长
+        plt.xscale('log')
         plt.xlabel('Number of traversed nodes')
         plt.ylabel('Recall (%)')
         plt.title('Traversed Nodes vs. Recall')
         plt.grid(True)
-        plt.xlim(left=1)  # x轴从0开始
+        plt.xlim(left=1)
         plt.savefig(os.path.join(self.save_dir, f"recall_vs_traversed_nodes_groundtruth_{save_name}.png"))
         plt.close()
 
     @staticmethod
     def ts_monotonic_bfs(graph, source, max_depth, increasing=True):
-        visited = {}  # node -> depth
+        visited = {}
         queue = deque()
-        queue.append((source, 0, None))  # (当前节点, 当前深度, 上一个时间戳)
+        queue.append((source, 0, None))
 
         while queue:
             current_node, depth, last_ts = queue.popleft()

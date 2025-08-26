@@ -266,10 +266,10 @@ class ProvDataset(Dataset):
         forward_attr = torch.nn.functional.pad(edge_attr, (0, edge_type_dim), value=0)
         reverse_edge_index = edge_index[[1, 0], :]
         reverse_attr = torch.zeros_like(forward_attr)
-        reverse_attr[:, :edge_type_dim] = edge_attr[:, -edge_type_dim:]  # 前部分
+        reverse_attr[:, :edge_type_dim] = edge_attr[:, -edge_type_dim:]
         if old_dim > 2 * edge_type_dim:
-            reverse_attr[:, edge_type_dim:-edge_type_dim] = edge_attr[:, edge_type_dim:-edge_type_dim]  # 中间部分
-        reverse_attr[:, -edge_type_dim:] = edge_attr[:, :edge_type_dim]  # 后部分
+            reverse_attr[:, edge_type_dim:-edge_type_dim] = edge_attr[:, edge_type_dim:-edge_type_dim]
+        reverse_attr[:, -edge_type_dim:] = edge_attr[:, :edge_type_dim]
 
         graph_data.edge_index = torch.cat([edge_index, reverse_edge_index], dim=1)
         graph_data.edge_attr = torch.cat([forward_attr, reverse_attr], dim=0)
@@ -334,15 +334,12 @@ class ProvDataset(Dataset):
         content_dir_parts = set()
         if 'Net' in ntype:
             for _part in content_parts:
-                # content_dir_parts.add(_part.split(":", 1)[0] if ":" in _part else _part)
                 content_dir_parts.add(max(_part.split(':'), key=len) if ":" in _part else _part)
             return content_dir_parts
         else:
             for _part in content_parts:
                 _ps = re.split(r'[/:._\-]+', _part)
-                # content_dir_parts.update([_p for _p in _ps if not _p.isdigit()])
                 content_dir_parts.update([re.sub(r'\d+$', '', _p) for _p in _ps if not _p.isdigit() and not ProvDataset.is_hashs(_p)])
-                # content_dir_parts.update([re.sub(r'\d+$', '', _p) for _p in _ps if not _p.isdigit() and not bool(self.detector.identifyHash(_p))])
                 
             return content_dir_parts
     
@@ -352,7 +349,6 @@ class ProvDataset(Dataset):
         for node in nx_graph.nodes:
             _content = nx_graph.nodes[node].get('content', '')
             _type = nx_graph.nodes[node].get('type', '')
-            # node_hashes[node] = int(hashlib.md5(pickle.dumps(self.filter_content(_type, _content))).hexdigest(), 16) % 2 ** 31
             node_hashes[node] = hash(frozenset(self.filter_content(_type, _content))) % 2 ** 31
             node_pre_hash[node] = node_hashes[node]
         
@@ -394,18 +390,11 @@ class ProvDataset(Dataset):
                 nx_graph.nodes[perserve_node]['nid'] = nx_graph.nodes[perserve_node]['nid'] + ';' + nx_graph.nodes[remove_node]['nid']
                 if nx_graph.nodes[perserve_node]['type'] not in config.CENTRAL_NODE_TYPE:
                     nx_graph.nodes[perserve_node]['content'] = nx_graph.nodes[perserve_node]['content'] + ';' + nx_graph.nodes[remove_node]['content']
-                
-                # 删除合并的节点
+
                 deleted_nodes.add(remove_node)
                 remove_pairs.append((remove_node, perserve_node))
             
             nx_graph.nodes[perserve_node]['feat'] = self.get_node_feature(nx_graph.nodes[perserve_node]['content'], nx_graph.nodes[perserve_node]['type'])
-            # if len(node_list) == 1 or nx_graph.nodes[perserve_node]['type'] in config.CENTRAL_NODE_TYPE:
-            #     nx_graph.nodes[perserve_node]['feat'] = pickle.loads(txn.get(str(nx_graph.nodes[perserve_node]['nid']).encode("utf-8")))
-            # else:
-            #     nx_graph.nodes[perserve_node]['feat'] = self.get_node_feature(nx_graph.nodes[perserve_node]['content'])
-
-        # node_feat_save_lmdb.close()
         
         imp_edges = list(nx_graph.graph.get('imp_edges', []))
         for remove_node, perserve_node in remove_pairs:
@@ -448,7 +437,7 @@ class ProvDataset(Dataset):
         signaturemd5.update(originstr)
 
         hex_value = signaturemd5.hexdigest()
-        hex_value_64bit = hex_value[:16]  # 截取前 64 位
+        hex_value_64bit = hex_value[:16]
         int_value = int(hex_value_64bit, 16)
         int64_max = 9223372036854775807
         int_value = int_value % int64_max 
@@ -469,13 +458,6 @@ class ProvDataset(Dataset):
             e_encoding[self.event_types.index(etype)] = 1
         
         return torch.tensor(e_encoding, dtype=torch.float).reshape(-1)
-        # src_encoding = [0] * len(self.node_types)
-        # if srctype in self.node_types:
-        #     src_encoding[self.node_types.index(srctype)] = 1
-        # dst_encoding = [0] * len(self.node_types)
-        # if dsttype in self.node_types:
-        #     dst_encoding[self.node_types.index(dsttype)] = 1
-        # return torch.tensor(e_encoding + src_encoding + dst_encoding, dtype=torch.float).reshape(-1)
     
     def get_node_label(self, nid: str) -> torch.Tensor:
         nid_list = nid.split(';')
@@ -490,7 +472,7 @@ class ProvDataset(Dataset):
         
         if 'train' in self.splite_name:
             neg_sample_save_lmdb = lmdb.open(self.neg_sample_save_path, readonly=True, lock=False)
-            neg_txn = neg_sample_save_lmdb.begin()  # 手动开始一个读事务
+            neg_txn = neg_sample_save_lmdb.begin()
             neg_graph_data = pickle.loads(neg_txn.get(str(idx).encode()))
             neg_sample_save_lmdb.close()
             return graph_data, neg_graph_data

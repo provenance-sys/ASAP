@@ -61,7 +61,7 @@ class ProvGraph(nx.MultiDiGraph):
         subgraph = nx.ego_graph(self.to_undirected(as_view=True), node_id, radius=num_hop)
         return subgraph
     
-    def find_reachable_subgraph_sel_node(self, start_node, hops=3, degree_limit=100):  # _modify
+    def find_reachable_subgraph_sel_node(self, start_node, hops=3, degree_limit=100):
         forward_edges = set()
         backward_edges = set()
 
