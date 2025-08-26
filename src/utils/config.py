@@ -1,8 +1,10 @@
+import os
 
-
-e3_targz_dir = "/data2/sj/DARPA_Engagement3/data/"  # cadets theia trace fivedirections clearscope
-artifact_dir = "/data2/sj/ASAP_DATA_copy/"
+e3_targz_dir = os.path.abspath(os.path.join(os.path.abspath(__file__), "../../..", "raw_data"))  # cadets theia trace fivedirections clearscope
+artifact_dir = os.path.abspath(os.path.join(os.path.abspath(__file__), "../../..", "data"))
 CENTRAL_NODE_TYPE: list = ['SUBJECT_PROCESS', 'SUBJECT_THREAD']
+
+print(artifact_dir)
 
 # ============data parse config=========== #
 DarpaE3_reserved_type_2_strings_map = {
