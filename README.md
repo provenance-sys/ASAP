@@ -43,6 +43,12 @@ e3_targz_dir = "/full/path/to/DARPAE3"
 python src/main.py -d e3cadets -a nginx_backdoor2 --device 0
 ```
 
+We provide preprocessed datasets and pre-trained models for reproducibility. You can download them from [Google Drive – ASAP_DATA](https://drive.google.com/drive/folders/1DNkLNVSbT7aoA_FrL-505pplDJO7TRFq?usp=share_link). After downloading, update the `artifact_dir` in `src/utils/config.py`:
+
+```
+artifact_dir = "/full/path/to/ASAP_DATA"
+```
+
 <table style="text-align: center">
   <caption>Summary of datasets, including training/testing splits and attack scenarios.</caption>
   <thead>
