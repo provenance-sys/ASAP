@@ -18,25 +18,7 @@ pip install pyg-lib==0.2.0 torch-scatter==2.1.2 torch-sparse==0.6.17 \
 ## Dataset
 
 This project uses data from the [DARPA Transparent Computing (TC) Program](https://github.com/darpa-i2o/Transparent-Computing/blob/master/README-E3.md).
-After downloading, place the data in the following folder structure:
-```
-DARPAE3/
-├── cadets/
-│   ├── ta1-cadets-e3-official.json.tar.gz
-│   ├── ta1-cadets-e3-official-1.json.tar.gz
-│   └── ta1-cadets-e3-official-2.json.tar.gz
-├── theia/
-│   └── *.tar.gz
-├── trace/
-│   └── *.tar.gz
-└── clearscope/
-    └── *.tar.gz
-```
-After placing the datasets in `DARPAE3/`, edit the file `src/utils/config.py` and modify the line:
-```
-e3_targz_dir = "/full/path/to/DARPAE3"
-```
-> **Note:** Replace /full/path/to/DARPAE3 with the absolute path on your machine.
+
 
 ## Running the Code
 ```
