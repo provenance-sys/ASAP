@@ -1,0 +1,43 @@
+dataset_split:
+  train:
+    - '2018-04-10'
+    - '2018-04-11'
+  nginx_backdoor2:
+    - '2018-04-12'
+  nginx_backdoor3:
+    - '2018-04-13'
+attack: 'nginx_backdoor2'
+
+device: 0
+lr: 0.002
+train_batch_size: 128
+test_batch_size: 128
+
+hidden_dim: 128
+num_hidden_layers: 2
+
+explainer_hidden_dim: 128
+explainer_num_hidden_layers: 2
+
+asap_epochs: 20
+asap_save_epoch: 0
+
+sparsity_mask_coef: 0.15
+sparsity_ent_coef: 0.15
+pur_num: 5
+triplet_coef: 0.01
+margin: 1.0
+
+graph_thed: 0.99
+node_thed: 0.9
+invest_budget: 200
+
+word2vec:
+  vector_size: 16
+  window: 5
+  min_count: 2
+
+subgraph_radius: 3
+
+is_retraining: False
+

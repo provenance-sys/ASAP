@@ -1,0 +1,17 @@
+A84C42A4-1282-5AD6-0D5E-921C9E05A32C FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/shared_files
+00000000-0000-0000-0000-0000002AC72E SUBJECT_PROCESS org.mozilla.fennec_firefox_dev
+00000000-0000-0000-0000-0000002B1AB3 NetFlowObject 111.82.111.27:80
+00000000-0000-0000-0000-0000002B1ADE NetFlowObject 166.199.230.185:80
+76C0EB30-97A7-3993-D651-4784E8EFDB05 FILE_OBJECT_FILE /dev/ashmem
+29AE45D6-9E4C-F5D4-A73C-4AEC339561DB FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-trackwhite-simple.pset
+E74C06B8-C8CA-0063-E846-8029FB4F0B7B FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-flashallow-simple.pset
+DAB90222-2348-50F6-E7CB-21B45203FF27 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/testexcept-flashallow-simple.pset
+146C4AAD-552C-124F-95E2-B4A626B878A0 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/testexcept-flash-simple.pset
+291B015D-D56F-CC6E-C906-90EECD8C0E82 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/testexcept-flashsubdoc-simple.pset
+EEE2D9F8-C6D9-2B75-F848-FBF218588A16 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-flashsubdoc-simple.pset
+D27B6A58-0B45-FC6C-C652-EA808F2F6936 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-phish-simple.pset
+963D272D-AA40-70CC-A97E-ABD0E3992775 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-track-simple.pset
+D7DADF49-36D8-0D57-8824-6FE17796C0B6 FILE_OBJECT_FILE6 /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-flash-simple.pset
+B03F89EA-D99D-D0B8-9D2F-9AB78E4580F9 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-block-simple.pset
+09FDF42A-02C7-98DE-B618-12C9B8C84D11 FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-malware-simple.pset
+E7C74C67-B935-EFE7-0B4B-72E7AE637EFD FILE_OBJECT_FILE /data/data/org.mozilla.fennec_firefox_dev/files/mozilla/nz9885vc.default/safebrowsing-updating/test-unwanted-simple.pset 
