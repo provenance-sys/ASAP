@@ -25,10 +25,11 @@ This project uses data from the [DARPA Transparent Computing (TC) Program](https
 python src/main.py -d e3cadets -a nginx_backdoor2 --device 0
 ```
 
-We provide preprocessed datasets and pre-trained models for reproducibility. You can download them from [Google Drive – ASAP_DATA](https://drive.google.com/drive/folders/1DNkLNVSbT7aoA_FrL-505pplDJO7TRFq?usp=share_link). After downloading, update the `artifact_dir` in `src/utils/config.py`:
+We provide preprocessed datasets and pre-trained models for reproducibility.
+The data can be extracted into the current directory using the following command:
 
 ```
-artifact_dir = "/full/path/to/ASAP_DATA"
+tar -xJvf data.tar.xz
 ```
 
 <table style="text-align: center">
