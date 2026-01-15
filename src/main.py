@@ -67,12 +67,12 @@ if __name__ == '__main__':
     from src.eval.starting_eval import evaluating
     evaluating(args=args)
 
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3cadets -a nginx_backdoor2
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3cadets -a nginx_backdoor3
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3clearscope -a firefox_backdoor
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3theia -a firefox_backdoor
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3theia -a browser_extension
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3trace -a firefox_backdoor
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3trace -a browser_extension
-# python -u /home/sj/test/ASAP_SP_CODE/asap_ccs/src/main.py -d e3trace -a pine_backdoor
+# python -u main.py -d e3cadets -a nginx_backdoor2
+# python -u main.py -d e3cadets -a nginx_backdoor3
+# python -u main.py -d e3clearscope -a firefox_backdoor
+# python -u main.py -d e3theia -a firefox_backdoor
+# python -u main.py -d e3theia -a browser_extension
+# python -u main.py -d e3trace -a firefox_backdoor
+# python -u main.py -d e3trace -a browser_extension
+# python -u main.py -d e3trace -a pine_backdoor
 
